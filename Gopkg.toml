@@ -28,3 +28,8 @@
 [prune]
   go-tests = true
   unused-packages = true
+
+[metadata.heroku]
+  root-package = "API_TIS_IV"
+  go-version = "go1.9.2"
+  install = [ "./..." ]
