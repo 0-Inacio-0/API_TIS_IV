@@ -5,8 +5,8 @@ import (
 	"github.com/gorilla/handlers"
 	"log"
 	"net/http"
+	"os"
 )
-
 
 func main() {
 
@@ -17,7 +17,7 @@ func main() {
 	allowedOrigins := handlers.AllowedOrigins([]string{"*"})
 	allowedMethods := handlers.AllowedMethods([]string{"GET"})
 
-
-	log.Println(http.ListenAndServe(":8080", handlers.CORS(allowedOrigins, allowedMethods)(router)))
+	port := os.Getenv("PORT")
+	log.Println(http.ListenAndServe(port, handlers.CORS(allowedOrigins, allowedMethods)(router)))
 
 }
