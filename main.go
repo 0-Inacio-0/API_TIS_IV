@@ -17,7 +17,13 @@ func main() {
 	allowedOrigins := handlers.AllowedOrigins([]string{"*"})
 	allowedMethods := handlers.AllowedMethods([]string{"GET"})
 
-	port := os.Getenv("PORT")
-	log.Println(http.ListenAndServe(port, handlers.CORS(allowedOrigins, allowedMethods)(router)))
+	log.Println(http.ListenAndServe(determineListenAddress(), handlers.CORS(allowedOrigins, allowedMethods)(router)))
 
+}
+func determineListenAddress() string {
+	port := os.Getenv("PORT")
+	if port == "" {
+		log.Println("$PORT not set")
+	}
+	return ":" + port
 }
