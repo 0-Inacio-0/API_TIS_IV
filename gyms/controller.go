@@ -34,8 +34,8 @@ func (c *Controller) GetGyms(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 		w.WriteHeader(422)
-		if err := json.NewEncoder(w).Encode("Error Marshaling json"); err != nil {
-			log.Printf("Error GetAcademia: %+v \n", errors.Wrap(err, "json failed to encode"))
+		if err := json.NewEncoder(w).Encode("an error occurred while Marshaling json"); err != nil {
+			log.Printf("Error GetAcademia: %+v \n", errors.Wrap(err, "an error occurred while encoding a error message"))
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
@@ -53,24 +53,24 @@ func (c *Controller) GetGyms(w http.ResponseWriter, r *http.Request) {
 func (c *Controller) PostScore(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576)) // read the body of the request
 	if err != nil {
-		log.Printf("Error PostScore: %+v \n", errors.Wrap(err, "Error reading request "))
+		log.Printf("Error PostScore: %+v \n", errors.Wrap(err, "an error occurred while reading request"))
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 	if err := r.Body.Close(); err != nil {
-		log.Printf("Error PostScore: %+v \n", errors.Wrap(err, "Error closing the body of the request"))
+		log.Printf("Error PostScore: %+v \n", errors.Wrap(err, "an error occurred while closing the body of the request"))
 	}
-	log.Printf("Json request: %s\n", body)
 	err = AddScore(body)
 	if err != nil {
+		log.Printf("Json request: %s\n", body)
 		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 		w.WriteHeader(422)
 		if err := json.NewEncoder(w).Encode(err); err != nil {
-			log.Printf("Error AddQuiz: %+v \n", errors.Wrap(err, "Error encoding json error "))
+			log.Printf("Error AddScore: %+v \n", errors.Wrap(err, "an error occurred while encoding a error message"))
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
-		log.Printf("Error AddQuiz: %+v \n", errors.Wrap(err, "Error encoding json error "))
+		log.Printf("Error AddScore: %+v \n", errors.Wrap(err, "an error occurred while adding user score"))
 		return
 	}
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")

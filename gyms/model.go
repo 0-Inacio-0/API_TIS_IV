@@ -33,7 +33,7 @@ func AddScore(data []byte) error {
 	score := UserScore{}
 	err := json.Unmarshal(data, &score)
 	if err != nil {
-		return errors.Wrap(err, "Error Unmarshalling UserScore")
+		return errors.Wrap(err, "an error occurred while unmarshalling UserScore")
 	}
 	found := false
 	for _, ele := range Gyms {
@@ -49,7 +49,7 @@ func AddScore(data []byte) error {
 		}
 	}
 	if !found {
-		return errors.Wrap(err, "Gym not found")
+		return errors.Wrap(err, "an error occurred could not find the GymCode")
 	}
 	return nil
 }
