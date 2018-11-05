@@ -2,13 +2,16 @@ package gyms
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/pkg/errors"
 	"io/ioutil"
 	"log"
 	"net/http"
 )
 
-var Gyms []Academia
+var Gyms []Gym
+
+const htmlDir = "pages"
 
 //Controller ...
 type Controller struct {
@@ -25,7 +28,7 @@ func Init() {
 }
 
 // GetQuiz GET /
-func (c *Controller) GetAcademias(w http.ResponseWriter, r *http.Request) {
+func (c *Controller) GetGyms(w http.ResponseWriter, r *http.Request) {
 	data, err := json.Marshal(Gyms)
 	if err != nil {
 		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
@@ -42,5 +45,10 @@ func (c *Controller) GetAcademias(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.WriteHeader(http.StatusOK)
 	w.Write(data)
+	return
+}
+
+func (c *Controller) Home(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, fmt.Sprintf("./%s/index.html", htmlDir))
 	return
 }

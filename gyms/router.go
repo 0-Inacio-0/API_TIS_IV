@@ -21,10 +21,22 @@ type Routes []Route
 
 var routes = Routes{
 	Route{
-		"GetQuiz",
+		"Home",
 		"GET",
-		"/academias",
-		controller.GetAcademias,
+		"/",
+		controller.Home,
+	},
+	Route{
+		"GetGyms",
+		"GET",
+		"/gyms",
+		controller.GetGyms,
+	},
+	Route{
+		"PostScore",
+		"post",
+		"/score",
+		controller.GetGyms,
 	},
 }
 
