@@ -36,7 +36,7 @@ var routes = Routes{
 		"PostScore",
 		"post",
 		"/score",
-		controller.GetGyms,
+		controller.PostScore,
 	},
 }
 

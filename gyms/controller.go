@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/pkg/errors"
+	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -45,6 +46,35 @@ func (c *Controller) GetGyms(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.WriteHeader(http.StatusOK)
 	w.Write(data)
+	return
+}
+
+// GetQuiz GET /
+func (c *Controller) PostScore(w http.ResponseWriter, r *http.Request) {
+	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576)) // read the body of the request
+	if err != nil {
+		log.Printf("Error PostScore: %+v \n", errors.Wrap(err, "Error reading request "))
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	if err := r.Body.Close(); err != nil {
+		log.Printf("Error PostScore: %+v \n", errors.Wrap(err, "Error closing the body of the request"))
+	}
+	log.Printf("Json request: %s\n", body)
+	err = AddScore(body)
+	if err != nil {
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.WriteHeader(422)
+		if err := json.NewEncoder(w).Encode(err); err != nil {
+			log.Printf("Error AddQuiz: %+v \n", errors.Wrap(err, "Error encoding json error "))
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+		log.Printf("Error AddQuiz: %+v \n", errors.Wrap(err, "Error encoding json error "))
+		return
+	}
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusCreated)
 	return
 }
 
