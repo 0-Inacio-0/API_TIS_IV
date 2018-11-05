@@ -35,8 +35,10 @@ func AddScore(data []byte) error {
 	if err != nil {
 		return errors.Wrap(err, "Error Unmarshalling UserScore")
 	}
+	found := false
 	for _, ele := range Gyms {
 		if ele.Code == score.GymCode {
+			found = true
 			ele.UsersScores = append(ele.UsersScores, score)
 			ele.NScore = len(ele.UsersScores)
 			sum := 0.0
@@ -46,5 +48,8 @@ func AddScore(data []byte) error {
 			ele.Score = sum / float64(ele.NScore)
 		}
 	}
-	return err
+	if !found {
+		return errors.Wrap(err, "Gym not found")
+	}
+	return nil
 }
