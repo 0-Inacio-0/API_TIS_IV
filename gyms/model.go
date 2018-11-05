@@ -25,7 +25,7 @@ type Gym struct {
 type UserScore struct {
 	Id      string    `json:"id"`
 	GymCode string    `json:"gyms_code"`
-	Score   float64   `json:"score"`
+	Score   int       `json:"score"`
 	Date    time.Time `json:"date"`
 }
 
@@ -41,11 +41,11 @@ func AddScore(data []byte) error {
 			found = true
 			ele.UsersScores = append(ele.UsersScores, score)
 			ele.NScore = len(ele.UsersScores)
-			sum := 0.0
+			sum := 0
 			for _, userScore := range ele.UsersScores {
 				sum += userScore.Score
 			}
-			ele.Score = sum / float64(ele.NScore)
+			ele.Score = float64(sum) / float64(ele.NScore)
 		}
 	}
 	if !found {
