@@ -49,7 +49,7 @@ func (c *Controller) GetGyms(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-// GetQuiz GET /
+// PostScore POST /
 func (c *Controller) PostScore(w http.ResponseWriter, r *http.Request) {
 	body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576)) // read the body of the request
 	if err != nil {
@@ -65,7 +65,7 @@ func (c *Controller) PostScore(w http.ResponseWriter, r *http.Request) {
 		log.Printf("Json request: %s\n", body)
 		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 		w.WriteHeader(422)
-		if err := json.NewEncoder(w).Encode(err); err != nil {
+		if err := json.NewEncoder(w).Encode("Error please check your request"); err != nil {
 			log.Printf("Error AddScore: %+v \n", errors.Wrap(err, "an error occurred while encoding a error message"))
 			w.WriteHeader(http.StatusInternalServerError)
 			return
