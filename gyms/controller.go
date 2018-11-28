@@ -23,7 +23,7 @@ var fireCtx, fireClient = firestoreConnect()
 const htmlDir = "pages"
 
 //the timestamp of the last firestore update
-var lastUpdate = Timestamp{time.Now()}
+var lastUpdate = Timestamp{time.Now(), time.Now().Format("20060102T150405")}
 
 //firestore credentials
 var fireCredentials = Credentials{

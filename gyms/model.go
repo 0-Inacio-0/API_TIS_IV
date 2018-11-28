@@ -7,7 +7,8 @@ import (
 )
 
 type Timestamp struct {
-	Timestamp time.Time `json:"timestamp"`
+	Timestamp    time.Time `json:"time"`
+	FmtTimestamp string    `json:"timestamp"`
 }
 
 type Credentials struct {
@@ -118,6 +119,6 @@ func PostScore(score UserScore) error {
 	if err != nil {
 		return errors.Wrap(err, "error while adding the updated gym in firestore")
 	}
-	lastUpdate.Timestamp = time.Now()
+	lastUpdate = Timestamp{time.Now(), time.Now().Format("20060102T150405")}
 	return nil
 }

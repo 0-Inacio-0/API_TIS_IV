@@ -9,7 +9,6 @@ import (
 
 func main() {
 	log.Println("Starting HTTP Server... ")
-
 	router := gyms.NewRouter()
 	allowedOrigins := handlers.AllowedOrigins([]string{"*"})
 	allowedMethods := handlers.AllowedMethods([]string{"GET", "POST"})
