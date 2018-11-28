@@ -3,9 +3,12 @@ package gyms
 import (
 	"github.com/pkg/errors"
 	"google.golang.org/api/iterator"
-	"log"
 	"time"
 )
+
+type Timestamp struct {
+	Timestamp time.Time `json:"timestamp"`
+}
 
 type Credentials struct {
 	AccType                 string `json:"type"`
@@ -95,7 +98,6 @@ func PostScore(score UserScore) error {
 	gymsScoreLen := len(gym.UsersScores) + 1
 	for _, ele := range gym.UsersScores {
 		if ele.Id == score.Id {
-			log.Println("bateu")
 			date := ele.Date
 			if date.AddDate(0, 3, 0).After(time.Now()) {
 				//todo set error types for comp outside this func
