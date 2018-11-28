@@ -34,14 +34,21 @@ var routes = Routes{
 	},
 	Route{
 		"PostScore",
-		"post",
+		"POST",
 		"/score",
 		controller.PostScore,
+	},
+	Route{
+		"UpdateTimeStamp",
+		"GET",
+		"/updateTimeStamp",
+		controller.UpdateTimeStamp,
 	},
 }
 
 //NewRouter configures a new router to the API
 func NewRouter() *mux.Router {
+	//Initializing the routes
 	router := mux.NewRouter().StrictSlash(true)
 	for _, route := range routes {
 		var handler http.Handler

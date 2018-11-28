@@ -5,25 +5,18 @@ import (
 	"github.com/gorilla/handlers"
 	"log"
 	"net/http"
-	"os"
 )
 
 func main() {
-
-	gyms.Init()
+	log.Println("Starting HTTP Server... ")
 
 	router := gyms.NewRouter()
-	// these two lines are important in order to allow access from the front-end side to the methods
 	allowedOrigins := handlers.AllowedOrigins([]string{"*"})
-	allowedMethods := handlers.AllowedMethods([]string{"GET"})
+	allowedMethods := handlers.AllowedMethods([]string{"GET", "POST"})
 
-	log.Println(http.ListenAndServe(determineListenAddress(), handlers.CORS(allowedOrigins, allowedMethods)(router)))
+	//get the env port
+	port := gyms.DetermineListenAddress()
 
-}
-func determineListenAddress() string {
-	port := os.Getenv("PORT")
-	if port == "" {
-		log.Println("$PORT not set")
-	}
-	return ":" + port
+	log.Println("Running on PORT", port)
+	log.Println(http.ListenAndServe(port, handlers.CORS(allowedOrigins, allowedMethods)(router)))
 }
