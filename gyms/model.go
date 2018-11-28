@@ -118,6 +118,6 @@ func PostScore(score UserScore) error {
 	if err != nil {
 		return errors.Wrap(err, "error while adding the updated gym in firestore")
 	}
-	lastUpdate = time.Now()
+	lastUpdate.Timestamp = time.Now()
 	return nil
 }
